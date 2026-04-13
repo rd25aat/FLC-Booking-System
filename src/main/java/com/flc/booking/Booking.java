@@ -6,7 +6,7 @@ package com.flc.booking;
 
 /**
  *
- * @author ASUS
+ * @author rd25aat
  */
 public class Booking {
     private Member member;
