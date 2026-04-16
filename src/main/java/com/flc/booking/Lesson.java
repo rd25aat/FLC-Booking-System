@@ -87,6 +87,12 @@ public class Lesson {
         return members.size();
     }  
     
+        public ArrayList<Member>getMembers(){
+        return members;
+    }
+    
+
+    
     @Override
     public String toString(){
         return "ID:" +lessonId +
