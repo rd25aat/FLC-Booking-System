@@ -54,8 +54,129 @@ public class FLCBookingSystem {
             members.add(new Member(i, "Member" + i));
         }
     }
-
     
+    private Member findMember(int id){
+        for(Member m : members){
+            if(m.getMemberId() == id)
+                return m;
+        }
+        return null;
+    }
+    
+    private void viewMembers(){
+        System.out.println("**MEMBER LIST**");
+        for(Member m : members){
+            System.out.println("ID:" + m.getMemberId() +
+                    " | Name: " + m.getName());
+        }
+    }
+    
+     private void viewReports() {
+        report.generateLessonReport();
+        report.generateHighestIncomeReport();
+    }
+     
+     private void bookLesson() {
+
+        System.out.print("Enter Member ID: ");
+        int mId = scanner.nextInt();
+
+        Member member = findMember(mId);
+        if (member == null) {
+            System.out.println("Member not found.");
+            return;
+        }
+
+        System.out.print("Enter Lesson ID: ");
+        int lId = scanner.nextInt();
+
+        Lesson lesson = timetable.findLessonById(lId);
+
+        if (lesson == null) {
+            System.out.println("Lesson not found.");
+            return;
+        }
+
+        if (member.bookLesson(lesson)) {
+            System.out.println("Booking successful!");
+        } else {
+            System.out.println("Booking failed (Full/Time Conflict).");
+        }
+    }
+     
+     private void addReview() {
+
+        System.out.print("Enter Member ID: ");
+        int mId = scanner.nextInt();
+        Member member = findMember(mId);
+
+        System.out.print("Enter Lesson ID: ");
+        int lId = scanner.nextInt();
+        Lesson lesson = timetable.findLessonById(lId);
+
+        scanner.nextLine();
+        System.out.print("Enter Rating (1-5): ");
+        int rating = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Enter Comment: ");
+        String comment = scanner.nextLine();
+
+        lesson.addReview(new Review(member, rating, comment));
+        System.out.println("Thank you for your review");
+    }
+     
+     private void menu() {
+
+        while (true) {
+
+            System.out.println("\n1. View Timetable");
+            System.out.println("2. Book Lesson");
+            System.out.println("3. Add Review");
+            System.out.println("4. View Members");
+            System.out.println("5. View Reports");
+            System.out.println("6. Exit");
+
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+
+                case 1:
+                    for (Lesson l : timetable.getAllLessons()) {
+                        System.out.println(
+                            "Lesson ID: " + l.getLessonId() +
+                            " | " + l.getExercise().getName() +
+                            " (" + l.getExercise().getPrice() + "pounds)" +
+                            " | " + l.getDay() +
+                            " | " + l.getTimeSlot() +
+                            " | Week: " + l.getWeekendNumber()
+                        );
+                    }
+                    break;
+
+                case 2:
+                    bookLesson();
+                    break;
+
+                case 3:
+                    addReview();
+                    break;
+
+                case 4:
+                    viewMembers();
+                    break;
+
+                case 5:
+                    viewReports();
+                    break;
+
+                case 6:
+                    System.exit(0);
+            }
+        }
+    }
+
+
 
     public static void main(String[] args) {
 
@@ -64,6 +185,7 @@ public class FLCBookingSystem {
 
 
         FLCBookingSystem system = new FLCBookingSystem();
+        system.menu();
     
     }
 }
