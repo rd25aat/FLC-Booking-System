@@ -4,11 +4,6 @@
  */
 package com.flc.booking;
 
-import java.util.ArrayList;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,119 +16,89 @@ public class MemberTest {
     public MemberTest() {
     }
     
-    @BeforeAll
-    public static void setUpClass() {
+     @Test
+    public void testMemberCreation() {
+
+        Member member = new Member(1, "Raju");
+
+        assertNotNull(member);
+        assertEquals(1, member.getMemberId());
+        assertEquals("Raju", member.getName());
+   
     }
     
-    @AfterAll
-    public static void tearDownClass() {
+     @Test
+    public void testBookLessonSuccess() {
+
+        Member member = new Member(2, "Nirjona");
+        Lesson lesson = new Lesson(1, new Exercise("Yoga", 10), "Saturday", "Morning", 1);
+
+        boolean result = member.bookLesson(lesson);
+
+        assertTrue(result);
+        assertEquals(1, member.getBookings().size());
     }
     
-    @BeforeEach
-    public void setUp() {
+    @Test
+    public void testTimeConflictBooking() {
+
+        Member member = new Member(4, "Raju");
+
+        Lesson l1 = new Lesson(3, new Exercise("Yoga", 10), "Saturday", "Morning", 1);
+        Lesson l2 = new Lesson(4, new Exercise("Zumba", 12), "Saturday", "Morning", 1);
+
+        member.bookLesson(l1);
+        boolean result = member.bookLesson(l2);
+
+        assertFalse(result); 
+        assertEquals(1, member.getBookings().size());
     }
     
-    @AfterEach
-    public void tearDown() {
-    }
-
-    /**
-     * Test of hasTimeConflict method, of class Member.
-     */
     @Test
-    public void testHasTimeConflict() {
-        System.out.println("hasTimeConflict");
-        Lesson lesson = null;
-        Member instance = null;
-        boolean expResult = false;
-        boolean result = instance.hasTimeConflict(lesson);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+    public void testDifferentTimeBookingAllowed() {
 
-    /**
-     * Test of bookLesson method, of class Member.
-     */
-    @Test
-    public void testBookLesson() {
-        System.out.println("bookLesson");
-        Lesson lesson = null;
-        Member instance = null;
-        boolean expResult = false;
-        boolean result = instance.bookLesson(lesson);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        Member member = new Member(5, "Steven");
 
-    /**
-     * Test of cancelBooking method, of class Member.
-     */
-    @Test
-    public void testCancelBooking() {
-        System.out.println("cancelBooking");
-        Lesson lesson = null;
-        Member instance = null;
-        instance.cancelBooking(lesson);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        Lesson l1 = new Lesson(5, new Exercise("Yoga", 10), "Saturday", "Morning", 1);
+        Lesson l2 = new Lesson(6, new Exercise("Zumba", 12), "Saturday", "Evening", 1);
 
-    /**
-     * Test of getMemberId method, of class Member.
-     */
-    @Test
-    public void testGetMemberId() {
-        System.out.println("getMemberId");
-        Member instance = null;
-        int expResult = 0;
-        int result = instance.getMemberId();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        boolean r1 = member.bookLesson(l1);
+        boolean r2 = member.bookLesson(l2);
 
-    /**
-     * Test of getName method, of class Member.
-     */
-    @Test
-    public void testGetName() {
-        System.out.println("getName");
-        Member instance = null;
-        String expResult = "";
-        String result = instance.getName();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getBookings method, of class Member.
-     */
-    @Test
-    public void testGetBookings() {
-        System.out.println("getBookings");
-        Member instance = null;
-        ArrayList<Booking> expResult = null;
-        ArrayList<Booking> result = instance.getBookings();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of toString method, of class Member.
-     */
-    @Test
-    public void testToString() {
-        System.out.println("toString");
-        Member instance = null;
-        String expResult = "";
-        String result = instance.toString();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(r1);
+        assertTrue(r2);
+        assertEquals(2, member.getBookings().size());
     }
     
+    
+    @Test
+    public void testBookingsArray() {
+
+        Member member = new Member(6, "Test");
+
+        Lesson l1 = new Lesson(7, new Exercise("Yoga", 10), "Sunday", "Morning", 2);
+        Lesson l2 = new Lesson(8, new Exercise("Box Fit", 14), "Sunday", "Afternoon", 2);
+
+        member.bookLesson(l1);
+        member.bookLesson(l2);
+
+        Booking[] expected = member.getBookings().toArray(new Booking[0]);
+        Booking[] actual = member.getBookings().toArray(new Booking[0]);
+
+        assertArrayEquals(expected, actual);
+    }
+    
+    @Test
+    public void testBookingContainsCorrectLesson() {
+
+        Member member = new Member(8, "Check");
+
+        Lesson lesson = new Lesson(9, new Exercise("Aquacise", 15), "Sunday", "Evening", 3);
+
+        member.bookLesson(lesson);
+
+        Booking booking = member.getBookings().get(0);
+        assertEquals(lesson, booking.getLesson());
+        
+    }  
 }
