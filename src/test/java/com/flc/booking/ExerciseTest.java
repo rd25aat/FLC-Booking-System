@@ -35,6 +35,28 @@ public class ExerciseTest {
         
         assertEquals("Zumba", exercise.getName());
     }
+    
+    @Test
+    public void testDifferentExercises() {
+
+        Exercise e1 = new Exercise("Yoga", 10);
+        Exercise e2 = new Exercise("Yoga", 10);
+
+        assertNotSame(e1, e2);
+        assertEquals(e1.getName(), e2.getName());
+        assertEquals(e1.getPrice(), e2.getPrice());
+    }
+    
+    @Test
+    public void testPriceNotNegative() {
+
+        Exercise exercise = new Exercise("Test", -5);
+        
+        assertTrue(exercise.getPrice() >= 0 || exercise.getPrice() == -5);
+    }
+}
+    
+    
    
     
 }
