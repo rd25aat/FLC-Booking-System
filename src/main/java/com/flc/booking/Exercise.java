@@ -6,13 +6,13 @@ package com.flc.booking;
 
 /**
  *
- * @author ASUS
+ * @author rd25aat
  */
-public class Excercise {
+public class Exercise {
     private String name;
     private double price;
     
-    public Excercise(String name, double price) {
+    public Exercise(String name, double price) {
         this.name = name;
         this.price = price;
     }
@@ -25,6 +25,7 @@ public class Excercise {
         return price;
     }
     
+    @Override
     public String toString(){
         return name + "(£" + price +")";
     }
