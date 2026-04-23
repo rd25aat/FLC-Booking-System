@@ -18,18 +18,16 @@ public class Report {
         this.timetable = timetable;
     }
 
-    // REPORT 1
-    // Members per lesson and Average rating
     public void generateLessonReport() {
 
-        System.out.println("\n===== LESSON REPORT =====");
+        System.out.println("*** LESSON REPORT ***");
 
         for (Lesson l : timetable.getAllLessons()) {
 
             System.out.println(
                 "Lesson ID: " + l.getLessonId() +
                 " | " + l.getExercise().getName() +
-                " (£" + l.getExercise().getPrice() + ")" +
+                " (" + l.getExercise().getPrice() + "pounds)" +
                 " | " + l.getDay() +
                 " | " + l.getTimeSlot() +
                 " | Week: " + l.getWeekendNumber()
@@ -41,11 +39,10 @@ public class Report {
         }
     }
 
-    // REPORT 2 
-    // Highest income exercise
+  
     public void generateHighestIncomeReport() {
 
-        System.out.println("\n===== HIGHEST INCOME EXERCISE =====");
+        System.out.println("*** HIGHEST INCOME EXERCISE ***");
 
         HashMap<String, Double> incomeMap = new HashMap<>();
 
@@ -68,6 +65,6 @@ public class Report {
         }
 
         System.out.println("Exercise: " + bestExercise);
-        System.out.println("Total Income: £" + maxIncome);
+        System.out.println("Total Income:" + maxIncome + "Pounds");
     }
 }
