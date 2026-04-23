@@ -35,7 +35,7 @@ public class Report {
 
             System.out.println("Members: " + l.getMembers().size());
             System.out.println("Average Rating: " + l.getAverageRating());
-            System.out.println("----------------------------");
+            
         }
     }
 
